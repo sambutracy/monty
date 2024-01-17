@@ -10,7 +10,9 @@
 int execution(char *content, stack_t **stack, unsigned int count, FILE *file)
 {
 	instruction_t opst[] = {
-				{"push node", push_node}, {"print all", printall.c}, {"print", print},
+				{"push node", push_node},
+				{"print all", print_all},
+				{"print", print},
 				{"top", print_top},
 				{"swap", swap_top},
 				{"add", add_funct},
@@ -21,10 +23,10 @@ int execution(char *content, stack_t **stack, unsigned int count, FILE *file)
 				{"modulus", mod},
 				{"print char", printchar},
 				{"print str", print_string},
-				{"rotate top", rot_top},
+				{"rotate top", print_top},
 				{"rotate", rotate},
 				{"queue", queue},
-				{"stack", print_topstack},
+				{"stack", print_top},
 				{NULL, NULL}
 				};
 	unsigned int i = 0;

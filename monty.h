@@ -1,5 +1,6 @@
 #ifndef MONTY_H
 #define MONTY_H
+#define  _POSIX_C_SOURCE 200809L
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -59,7 +60,7 @@ void push_node(stack_t **head, unsigned int number);
 void print_all(stack_t **head, unsigned int number);
 void print(stack_t **head, unsigned int number);
 int execution(char *content, stack_t **head, unsigned int count, FILE *file);
-void stack_free(stack_t *head);
+void free_stack(stack_t *head);
 void print_top(stack_t **head, unsigned int count);
 void swap_top(stack_t **head, unsigned int count);
 void add_funct(stack_t **head, unsigned int count);
@@ -75,5 +76,5 @@ void rotate(stack_t **head, __attribute__((unused)) unsigned int count);
 void node_add(stack_t **head, int n);
 void addsqueue(stack_t **head, int n);
 void queue(stack_t **head, unsigned int count);
-void stack_free(stack_t **head, unsigned int count);
+void print_topstack(stack_t **head, unsigned int count);
 #endif
