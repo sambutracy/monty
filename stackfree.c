@@ -3,7 +3,7 @@
  * stack_free - Frees a doubly linked list for a stack.
  * @head: Head of the stack.
  */
-void stack_free(stack_t *head)
+void free_stack(stack_t *head)
 {
 	stack_t *aux;
 
