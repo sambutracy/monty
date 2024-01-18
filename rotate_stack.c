@@ -21,7 +21,6 @@ void rotate(stack_t **head, __attribute__((unused)) unsigned int count)
 	new->next = *head;
 	new->prev->next = NULL;
 	new->prev = NULL;
-	(*head)->prev =new;
+	(*head)->prev = new;
 	(*head) = new;
 }
-

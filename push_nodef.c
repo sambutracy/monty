@@ -2,7 +2,7 @@
 /**
  * push_node - add node to the stack
  * @head: stack head
- * @counter: line_number
+ * @count: line_number
  * Return: no return
 */
 void push_node(stack_t **head, unsigned int count)
