@@ -1,45 +1,111 @@
 #include "monty.h"
-bus_t bus = {NULL, NULL, NULL, 0};
-/**
-* main - monty code interpreter
-* @argc: number of arguments
-* @argv: monty file location
-* Return: 0 on success
-*/
-int main(int argc, char *argv[])
-{
-	char *content;
-	FILE *file;
-	size_t size = 0;
-	ssize_t read_line = 1;
-	stack_t *stack = NULL;
-	unsigned int count = 0;
 
+/**
+ * execute - exec opcode
+ * Return: none
+ */
+void execute(void)
+{
+	instruction_t ins[] = {
+		{"push", push_func},
+		{"pall", pall_func},
+		{"pint", pint_func},
+		{"pop", pop_func},
+		{"swap", swap_func},
+		{"add", add_func},
+		{"nop", nop_func},
+		{"sub", sub_func},
+		{"div", div_func},
+		{"mul", mul_func},
+		{"mod", mod_func},
+		{"pchar", pchar_func},
+		{"pstr", pstr_func},
+		{"rotl", rotl_func},
+		{"rotr", rotr_func},
+		{"queue", mode_func},
+		{"stack", mode_func},
+		{NULL, NULL},
+	};
+	int j = 0;
+
+	for (j = 0; ins[j].opcode; j++)
+	{
+		if (strcmp(datax.opcode, ins[j].opcode) == 0)
+		{
+			ins[j].f(&datax.head, datax.line_num);
+			break;
+		}
+	}
+	if (!ins[j].opcode)
+	{
+		fprintf(stderr, "L%d: unknown instruction %s\n",
+				datax.line_num, datax.opcode);
+		free_stack(datax.head);
+		exit(EXIT_FAILURE);
+	}
+}
+/**
+ * remove_spaces - remove spaces
+ * @str: string
+ * Return: new string
+ */
+char *remove_spaces(char *str)
+{
+	while (*str)
+	{
+		if (*str == ' ')
+			str++;
+		else
+			break;
+	}
+	return (str);
+}
+
+/**
+ * main -  count how many charachter in number
+ * @argc: number
+ * @argv: number
+ * Return: the number lentgh
+ */
+int main(int argc, char **argv)
+{
+	char line[100], *token;
+	int i = 0;
+
+	datax.mode = 0;
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	file = fopen(argv[1], "r");
-	bus.file = file;
-	if (!file)
+	datax.mfile = openfile(argv[1]);
+	while (fgets(line, sizeof(line), datax.mfile) != NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		exit(EXIT_FAILURE);
-	}
-	while (read_line > 0)
-	{
-		content = NULL;
-		read_line = getline(&content, &size, file);
-		bus.content = content;
-		count++;
-		if (read_line > 0)
+		if (strlen(remove_spaces(line)) < 3 || remove_spaces(line)[0] == '#')
 		{
-			execution(content, &stack, count, file);
+			datax.line_num++;
+			continue;
 		}
-		free(content);
+		datax.line_num++;
+		token = strtok(line, " \n");
+		for (i = 0; token != NULL && i < 2; i++)
+		{
+			if (i == 0) /*first part command first loop*/
+				datax.opcode = token;
+			if (strcmp(datax.opcode, "push") != 0) /*if opcode is not push break*/
+				break;
+			if (i == 1)
+				verify_number(token);
+			token = strtok(NULL, " \n");
+		}
+		if (strcmp(datax.opcode, "push") == 0 && i == 1)
+		{
+			fprintf(stderr, "L%d: usage: push integer\n", datax.line_num);
+			free_stack(datax.head);
+			exit(EXIT_FAILURE);
+		}
+		exec();
 	}
-	free_stack(stack);
-	fclose(file);
-return (0);
+	free_stack(datax.head);
+	exit(EXIT_SUCCESS);
 }
