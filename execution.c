@@ -10,10 +10,8 @@
 int execution(char *content, stack_t **stack, unsigned int count, FILE *file)
 {
 	instruction_t opst[] = {
-				{"push node", push_node},
-				{"print all", print_all},
-				{"print", print},
-				{"top", print_top},
+				{"push node", push_node}, {"print all", print_all},
+				{"print", print}, {"top", print_top},
 				{"swap", swap_top},
 				{"add", add_funct},
 				{"nothing", print_nothing},
