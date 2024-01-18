@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	datax.mfile = openfile(argv[1]);
+	datax.mfile = openfile_f(argv[1]);
 	while (fgets(line, sizeof(line), datax.mfile) != NULL)
 	{
 		if (strlen(remove_spaces(line)) < 3 || remove_spaces(line)[0] == '#')
@@ -95,7 +95,7 @@ int main(int argc, char **argv)
 			if (strcmp(datax.opcode, "push") != 0) /*if opcode is not push break*/
 				break;
 			if (i == 1)
-				verify_number(token);
+				verify(token);
 			token = strtok(NULL, " \n");
 		}
 		if (strcmp(datax.opcode, "push") == 0 && i == 1)
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 			free_stack(datax.head);
 			exit(EXIT_FAILURE);
 		}
-		exec();
+		execute();
 	}
 	free_stack(datax.head);
 	exit(EXIT_SUCCESS);

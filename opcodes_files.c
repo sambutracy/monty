@@ -149,7 +149,7 @@ void swap_func(stack_t **head, unsigned int count)
 	}
 	tmp1 = *head;
 	tmp1->prev = tmp1->next;
-	if ((head)->next->next == NULL)
+	if ((*head)->next->next == NULL)
 		tmp1->next = NULL;
 	else
 	{
@@ -213,7 +213,7 @@ void sub_func(stack_t **head, unsigned int count)
 	}
 	value = (*head)->n;
 	pop_func(&datax.head, datax.line_num);
-	(*top)->n -= value;
+	(*head)->n -= value;
 }
 
 /**
@@ -257,12 +257,12 @@ void mul_func(stack_t **head, unsigned int count)
 
 	if (!*head || (*head)->next == NULL)
 	{
-		fprintf(stderr, "L%d: can't mul, stack too short\n", head);
-		free_stack(datax.top);
+		fprintf(stderr, "L%d: can't mul, stack too short\n", count);
+		free_stack(datax.head);
 		exit(EXIT_FAILURE);
 	}
 	value = (*head)->n;
-	_pop(&datax.head, datax.line_num);
+	pop_func(&datax.head, datax.line_num);
 	(*head)->n *= value;
 }
 
@@ -286,7 +286,7 @@ void mod_func(stack_t **head, unsigned int count)
 	if ((*head)->n == 0)
 	{
 		fprintf(stderr, "L%d: division by zero\n", count);
-		free_stack(datax.count);
+		free_stack(datax.head);
 		exit(EXIT_FAILURE);
 	}
 	value = (*head)->n;
@@ -361,7 +361,7 @@ void rotl_func(stack_t **head, unsigned int count)
 	}
 	last->next = *head;
 	(*head)->prev = last;
-	(*head) = (*top)->next;
+	(*head) = (*head)->next;
 	(*head)->prev->next = NULL;
 	(*head)->prev = NULL;
 }
