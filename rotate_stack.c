@@ -5,7 +5,7 @@
   *@count: line_number
   *Return: no return
  */
-void f_rotr(stack_t **head, __attribute__((unused)) unsigned int count)
+void rotate(stack_t **head, __attribute__((unused)) unsigned int count)
 {
 	stack_t *new;
 
